@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <style>
+            .drop-zone{
+                width:500px;
+                height:300px;
+                border:3px solid #fc0;
+                border-radius:10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="DropZone" class="drop-zone"></div>
+        <progress min="0" max="100" value="0">0% complete</progress>
+        <script src="./ajaxUpload.js"></script>
+        <script>
+            var dz = document.getElementById('DropZone');
+            dz.ondragover = function () {
+                return false;
+            };
+            dz.ondragend = function () {
+                return false;
+            };
+  
+            dz.ondrop = function (e) {
+                e.preventDefault();
+                var files = e.dataTransfer.files,
+                    i = 0,
+                    fo;
+                while (fo = files[i++]) {
+                    ajaxUpload('http://cross.sina.com.cn:81/sina/svn/fileUpload/server/server.php', { name : 'file', fo : fo}, function (data) {
+                        console.debug(data);
+                    });
+                }
+                return false;
+            };
+
+        </script>
+    </body>
+</html>
